@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <title>患者栄養計画サポート</title>
-  <!-- 外部CSSファイルを読み込む -->
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,20 +10,33 @@
 
   <form id="patientForm">
     <label>年齢: <input type="number" id="age" required></label><br>
-    <label>性別:
-      <select id="gender">
-        <option value="male">男性</option>
-        <option value="female">女性</option>
-      </select>
-    </label><br>
     <label>身長(cm): <input type="number" id="height" required></label><br>
     <label>体重(kg): <input type="number" id="weight" required></label><br>
+
+    <div class="gender-buttons">
+      <span>性別:</span>
+      <button type="button" class="gender-btn" data-gender="male">男性</button>
+      <button type="button" class="gender-btn" data-gender="female">女性</button>
+    </div>
+
+    <label>病態:
+      <select id="condition">
+        <option value="0.9">正常（0.8～1.0）</option>
+        <option value="1.25">異化亢進（1.0～1.5）</option>
+        <option value="0.9">急性腎不全（0.8～1.0）</option>
+        <option value="0.7">保存期CKD Stage 4（0.6～0.8）</option>
+        <option value="1.3">血液透析（1.2～1.4）</option>
+        <option value="1.4">腹膜透析（1.3～1.5）</option>
+        <option value="1.2">肝疾患・肝硬変（1.2）</option>
+        <option value="0.5">肝性脳症（0.5）</option>
+      </select>
+    </label><br>
+
     <button type="button" onclick="calculatePlan()">計算する</button>
   </form>
 
   <div id="result"></div>
 
-  <!-- 外部JavaScriptファイルを読み込む -->
   <script src="script.js"></script>
 </body>
 </html>
