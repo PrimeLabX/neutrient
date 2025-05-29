@@ -64,3 +64,37 @@ body {
   background-color: #007bff;
   color: white;
 }
+
+/* プロポ設定 */
+.propofol-button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: 2px solid #007bff;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: white;
+      color: black;
+      transition: 0.3s;
+      margin-bottom: 10px;
+    }
+
+    .propofol-button.on {
+      background-color: #007bff; /* 青 */
+      color: white;
+    }
+
+    #rateInputContainer {
+      display: none;
+      margin-top: 10px;
+    }
+
+    label {
+      font-size: 16px;
+      margin-right: 5px;
+    }
+
+    input[type="number"] {
+      padding: 5px;
+      font-size: 16px;
+      width: 100px;
+    }
