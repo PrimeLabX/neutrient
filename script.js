@@ -1,10 +1,12 @@
 let selectedGender = null;
 
-document.querySelectorAll(".gender-btn").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll(".gender-btn").forEach(b => b.classList.remove("selected"));
-    btn.classList.add("selected");
-    selectedGender = btn.getAttribute("data-gender");
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".gender-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".gender-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      selectedGender = btn.getAttribute("data-gender");
+    });
   });
 });
 
@@ -24,7 +26,7 @@ function calculatePlan() {
     ? 13.397 * weight + 4.799 * height - 5.677 * age + 88.362
     : 9.247 * weight + 3.098 * height - 4.330 * age + 447.593;
 
-  const tdee = bmr * 1.2; // 安静時係数
+  const tdee = bmr * 1.2;
   const proteinNeed = weight * conditionFactor;
 
   const result = `
