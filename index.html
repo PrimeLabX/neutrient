@@ -37,6 +37,19 @@
 
   <div id="result"></div>
 
+  <h2>栄養製剤投与量の計算</h2>
+<label>製剤:
+  <select id="formula">
+    <option value="enevo">エネーボ</option>
+    <option value="elneopa">エルネオパ</option>
+    <option value="impact">インパクト</option>
+  </select>
+</label><br>
+<label>速度 (mL/h): <input type="number" id="rate" value="50" required></label><br>
+<button type="button" onclick="calculateInfusion()">投与栄養量を計算</button>
+
+<div id="infusionResult"></div>
+
   <script src="script.js"></script>
 </body>
 </html>
