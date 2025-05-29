@@ -44,40 +44,95 @@ function calculatePlan() {
 
 
 
-function calculateInfusion() {
-  const formula = document.getElementById("formula").value;
-  const rate = parseFloat(document.getElementById("rate").value);
-  const hoursPerDay = 24;
-  const totalVolume = rate * hoursPerDay;
 
-  const formulas = {
-    enevo: {
-      name: "エネーボ",
-      kcalPerMl: 1.2,
-      proteinPerMl: 0.045  // 1000mLで45g → 0.045g/mL
-    },
-    elneopa: {
-      name: "エルネオパ",
-      kcalPerMl: 1.0,
-      proteinPerMl: 0.04   // 1000mLで40g
-    },
-    impact: {
-      name: "インパクト",
-      kcalPerMl: 1.5,
-      proteinPerMl: 0.065  // 1000mLで65g
-    }
+
+document.addEventListener("DOMContentLoaded", function () {
+  const formulaOptions = {
+    enevo: { name: "エネーボ", kcalPerMl: 1.2, proteinPerMl: 0.045 },
+    elneopa: { name: "エルネオパ", kcalPerMl: 1.0, proteinPerMl: 0.04 },
+    impact: { name: "インパクト", kcalPerMl: 1.5, proteinPerMl: 0.065 }
   };
 
-  const selected = formulas[formula];
-  const kcal = selected.kcalPerMl * totalVolume;
-  const protein = selected.proteinPerMl * totalVolume;
+  const container = document.getElementById("formulaContainer");
 
-  const result = `
-    <p><strong>${selected.name}</strong> を ${rate} mL/h × 24時間 投与</p>
-    <p><strong>総投与量:</strong> ${totalVolume} mL/日</p>
-    <p><strong>総カロリー:</strong> ${Math.round(kcal)} kcal/日</p>
-    <p><strong>総たんぱく質:</strong> ${protein.toFixed(1)} g/日</p>
+  for (let i = 0; i < 3; i++) {
+    const group = document.createElement("div");
+    group.className = "formula-group";
+
+    const select = document.createElement("select");
+    select.className = "formula";
+    const defaultOption = document.createElement("option");
+    defaultOption.value = "";
+    defaultOption.textContent = `-- 製剤${i + 1}を選択 --`;
+    select.appendChild(defaultOption);
+
+    for (const key in formulaOptions) {
+      const option = document.createElement("option");
+      option.value = key;
+      option.textContent = formulaOptions[key].name;
+      select.appendChild(option);
+    }
+
+    const rateLabel = document.createElement("label");
+    rateLabel.textContent = " 速度(mL/h): ";
+
+    const rateInput = document.createElement("input");
+    rateInput.type = "number";
+    rateInput.className = "rate";
+    rateInput.value = "0";
+    rateInput.min = "0";
+
+    rateLabel.appendChild(rateInput);
+
+    group.appendChild(select);
+    group.appendChild(rateLabel);
+    container.appendChild(group);
+  }
+});
+
+function calculateInfusion() {
+  const formulas = {
+    enevo: { name: "エネーボ", kcalPerMl: 1.2, proteinPerMl: 0.045 },
+    elneopa: { name: "エルネオパ", kcalPerMl: 1.0, proteinPerMl: 0.04 },
+    impact: { name: "インパクト", kcalPerMl: 1.5, proteinPerMl: 0.065 }
+  };
+
+  const formulaSelects = document.querySelectorAll(".formula");
+  const rateInputs = document.querySelectorAll(".rate");
+
+  let totalVolume = 0;
+  let totalKcal = 0;
+  let totalProtein = 0;
+  let breakdownHTML = "";
+
+  for (let i = 0; i < formulaSelects.length; i++) {
+    const formulaKey = formulaSelects[i].value;
+    const rate = parseFloat(rateInputs[i].value);
+
+    if (!formulaKey || isNaN(rate) || rate <= 0) continue;
+
+    const formula = formulas[formulaKey];
+    const volume = rate * 24;
+    const kcal = volume * formula.kcalPerMl;
+    const protein = volume * formula.proteinPerMl;
+
+    totalVolume += volume;
+    totalKcal += kcal;
+    totalProtein += protein;
+
+    breakdownHTML += `
+      <p><strong>${formula.name}</strong>（${rate} mL/h × 24h）</p>
+      <p>→ ${volume} mL/日：${Math.round(kcal)} kcal, ${protein.toFixed(1)} g たんぱく質</p>
+    `;
+  }
+
+  const totalHTML = `
+    <hr>
+    <p><strong>合計投与量:</strong> ${totalVolume} mL/日</p>
+    <p><strong>総カロリー:</strong> ${Math.round(totalKcal)} kcal/日</p>
+    <p><strong>総たんぱく質:</strong> ${totalProtein.toFixed(1)} g/日</p>
   `;
 
-  document.getElementById("infusionResult").innerHTML = result;
+  document.getElementById("infusionResult").innerHTML =
+    breakdownHTML || "<p>有効な入力がありません。</p>" + totalHTML;
 }
