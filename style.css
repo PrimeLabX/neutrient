@@ -20,6 +20,22 @@ input, select {
   padding: 5px;
   margin-left: 10px;
 }
+.gender-buttons {
+  margin: 10px 0;
+}
+.gender-btn {
+  padding: 8px 16px;
+  margin-right: 5px;
+  border: 1px solid #ccc;
+  background-color: white;
+  color: #333;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.gender-btn.selected {
+  background-color: #007bff;
+  color: white;
+}
 button {
   margin-top: 10px;
   padding: 10px 15px;
