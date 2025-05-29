@@ -50,3 +50,14 @@ button {
   background-color: #e0ffe0;
   border-radius: 5px;
 }
+
+
+
+
+ /* 製剤選択ボタン */ 
+.formula-group {
+  margin-bottom: 1em;
+}
+select, input {
+  margin-right: 10px;
+}
