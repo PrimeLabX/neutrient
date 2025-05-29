@@ -1,63 +1,66 @@
 body {
   font-family: sans-serif;
-  background: #f4f4f4;
-  padding: 20px;
+  margin: 20px;
 }
-h1 {
-  color: #333;
-}
-form {
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-label {
-  display: block;
+
+.tab-container {
+  display: flex;
   margin-bottom: 10px;
 }
-input, select {
-  padding: 5px;
-  margin-left: 10px;
-}
-.gender-buttons {
-  margin: 10px 0;
-}
-.gender-btn {
-  padding: 8px 16px;
-  margin-right: 5px;
-  border: 1px solid #ccc;
-  background-color: white;
+
+.tab-button {
+  flex: 1;
+  padding: 10px;
+  background-color: #f0f0f0;
   color: #333;
-  border-radius: 5px;
+  border: 1px solid #ccc;
   cursor: pointer;
 }
-.gender-btn.selected {
+
+.tab-button.active {
   background-color: #007bff;
   color: white;
 }
-button {
-  margin-top: 10px;
-  padding: 10px 15px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 5px;
-}
-#result {
-  margin-top: 20px;
-  padding: 15px;
-  background-color: #e0ffe0;
-  border-radius: 5px;
+
+.tab-content {
+  display: none;
 }
 
+.tab-content.active {
+  display: block;
+}
 
-
-
- /* 製剤選択ボタン */ 
 .formula-group {
-  margin-bottom: 1em;
+  margin-bottom: 10px;
 }
-select, input {
-  margin-right: 10px;
+
+.formula-btn {
+  background-color: #fff;
+  color: #333;
+  border: 1px solid #ccc;
+  margin: 2px;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.formula-btn.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+/* 栄養必要量計算 */
+.gender-btn {
+  margin: 5px;
+  padding: 8px 16px;
+  border: 1px solid #007bff;
+  border-radius: 5px;
+  background-color: white;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.gender-btn.selected {
+  background-color: #007bff;
+  color: white;
 }
