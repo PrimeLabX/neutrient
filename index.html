@@ -36,15 +36,15 @@
         <label>
           病態（タンパク係数）:
           <select id="conditionSelect">
-            <option value="">-- 選択してください --</option>
-            <option value="0.9" selected>異化亢進（1.0～1.5 g/kg）</option>
-            <option value="0.9">正常（0.8～1.0 g/kg）</option>
-            <option value="0.9">急性腎不全（0.8～1.0 g/kg）</option>
-            <option value="0.7">保存期 CKD（0.6～0.8 g/kg）</option>
-            <option value="1.3">血液透析（1.2～1.4 g/kg）</option>
-            <option value="1.4">腹膜透析（1.3～1.5 g/kg）</option>
-            <option value="1.2">肝疾患・肝硬変（1.2 g/kg）</option>
-            <option value="0.5">肝性脳症（0.5 g/kg）</option>
+            <option data-min="" data-max="">-- 選択してください --</option>
+            <option data-min="1.0" data-max="1.5" selected>異化亢進（1.0～1.5 g/kg）</option>
+            <option data-min="0.8" data-max="1.0">正常（0.8～1.0 g/kg）</option>
+            <option data-min="0.8" data-max="1.0">急性腎不全（0.8～1.0 g/kg）</option>
+            <option data-min="0.6" data-max="0.8">保存期 CKD（0.6～0.8 g/kg）</option>
+            <option data-min="1.2" data-max="1.4">血液透析（1.2～1.4 g/kg）</option>
+            <option data-min="1.3" data-max="1.5">腹膜透析（1.3～1.5 g/kg）</option>
+            <option data-min="1.2" data-max="1.2">肝疾患・肝硬変（1.2 g/kg）</option>
+            <option data-min="0.5" data-max="0.5">肝性脳症（0.5 g/kg）</option>
           </select>
         </label>
       </div>
@@ -133,25 +133,38 @@
   });
   conditionSelect.addEventListener("change", calculateNeeds);
 
-  function calculateNeeds() {
-    const weight = parseFloat(weightInput.value);
-    const kcalFactor = parseFloat(kcalFactorInput.value);
-    const proteinFactor = parseFloat(conditionSelect.value);
-    if (isNaN(weight) || weight <= 0 || isNaN(proteinFactor)) {
-      document.getElementById("needsResult").innerHTML = "<p>体重と病態を正しく入力してください。</p>";
-      return;
-    }
-    const totalKcal = weight * kcalFactor;
-    const totalProtein = weight * proteinFactor;
-    document.getElementById("needsResult").innerHTML = `
-      <p>体重: ${weight} kg</p>
-      <p>カロリー係数: ${kcalFactor} kcal/kg</p>
-      <p>タンパク係数: ${proteinFactor} g/kg</p>
-      <hr>
-      <p><strong>必要カロリー:</strong> ${Math.round(totalKcal)} kcal/day</p>
-      <p><strong>必要タンパク量:</strong> ${totalProtein.toFixed(1)} g/day</p>
-    `;
+function calculateNeeds() {
+  const weight = parseFloat(weightInput.value);
+  const kcalFactor = parseFloat(kcalFactorInput.value);
+  const selectedOption = conditionSelect.options[conditionSelect.selectedIndex];
+
+  const proteinMin = parseFloat(selectedOption.dataset.min);
+  const proteinMax = parseFloat(selectedOption.dataset.max);
+
+  if (isNaN(weight) || weight <= 0 || isNaN(proteinMin) || isNaN(proteinMax)) {
+    document.getElementById("needsResult").innerHTML = "<p>体重と病態を正しく入力してください。</p>";
+    return;
   }
+
+  const totalKcal = weight * kcalFactor;
+  const totalProteinMin = weight * proteinMin;
+  const totalProteinMax = weight * proteinMax;
+
+  let proteinDisplay = "";
+
+  if (proteinMin === proteinMax) {
+    proteinDisplay = `${totalProteinMin.toFixed(1)} g/day`;
+  } else {
+    proteinDisplay = `${totalProteinMin.toFixed(1)} ～ ${totalProteinMax.toFixed(1)} g/day`;
+  }
+
+  document.getElementById("needsResult").innerHTML = `
+    <hr>
+    <p><strong>必要カロリー:</strong> ${Math.round(totalKcal)} kcal/day</p>
+    <p><strong>必要タンパク量:</strong> ${proteinDisplay}</p>
+  `;
+}
+
 
   // 製剤定義 enevo: { name: "エネーボ", kcalPerMl: 1.0, proteinPerMl: 0.04, type: "rate", naPerMl: 0.44, kPerMl: 1 }, impact: { name: "インパクト", kcalPerMl: 1.5, proteinPerMl: 0.065, type: "rate", naPerMl: 1.1, kPerMl: 1.33 },
  
@@ -256,6 +269,14 @@ function calculateInfusion() {
   let totalNaEq = 0;
   let totalKEq = 0;
   let resultHTML = "";
+  
+   // プロポフォール（脂肪製剤）の計算：オン状態なら速度を取得して24時間量を算出
+    if (isPropofolOn) {
+        var propRate = parseFloat(rateInput.value) || 0;     // propofol注入速度 (mL/h)
+        var propVolume24 = propRate * 24;                   // 24時間で投与される量 (mL)
+        ptotalKcal += propVolume24 * 1.1;                    // プロポフォール 1mLあたり1.1kcal
+        ptotalWater += propVolume24;                         // 水分は24時間分を加算
+    }
 
   const selects = document.querySelectorAll(".formula-select");
   selects.forEach((select, i) => {
@@ -300,9 +321,11 @@ function calculateInfusion() {
       const naEq = formula.naEqPerUnit ? count * formula.naEqPerUnit : 0;
       const kEq = formula.kEqPerUnit ? count * formula.kEqPerUnit : 0;
 
-      totalKcal += kcal;
+      //totalKcal += kcal;
+      totalKcal = kcal + ptotalKcal;
       totalProtein += protein;
-      totalWater += water;
+      //totalWater += water;
+      totalWater = water + ptotalWater;
       totalNa += na;
       totalK += k;
       totalNaEq += naEq;
@@ -313,11 +336,11 @@ function calculateInfusion() {
     }
   });
 
-  resultHTML += `<hr><p><strong>合計:</strong> ${Math.round(totalKcal)} kcal / ${totalProtein.toFixed(1)} g タンパク質 / ${Math.round(totalWater)} mL 水分 / Na: ${Math.round(totalNa)} mg / K: ${Math.round(totalK)} mg 
-  
-  / Na: ${Math.round(totalNaEq)} mEq / K: ${Math.round(totalKEq)} mEq</p>`;
+  resultHTML += `<hr><p><strong>合計:</strong> ${Math.round(totalKcal)} kcal / ${totalProtein.toFixed(1)} g タンパク質 / ${Math.round(totalWater)} mL 水分 / Na: ${Math.round(totalNa)} mg / K: ${Math.round(totalK)} mg / Na: ${Math.round(totalNaEq)} mEq / K: ${Math.round(totalKEq)} mEq</p>`;
   document.getElementById("infusionResult").innerHTML = resultHTML || "<p>有効な入力がありません。</p>";  
 }
+
+
 });
   </script>
 </body>
