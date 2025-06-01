@@ -118,13 +118,11 @@ input[type="number"] {
 
 /* ▼▼▼ レスポンシブ対応 ▼▼▼ */
 @media (max-width: 768px) {
-
-#menu-bg {
-background-color: #00FF00;　/*緑色*/
-}
+  
 
   body {
     font-size: 18px;
+    background: green;
   }
 
   .tab-button,
