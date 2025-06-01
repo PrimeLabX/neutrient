@@ -153,23 +153,3 @@ input[type="number"] {
     margin-bottom: 5px;
   }
 }
-
-@media (max-width: 768px) {
-  body {
-    font-size: 18px;
-  }
-
-  .tab-button,
-  .formula-btn,
-  .gender-btn,
-  .propofol-button,
-  label,
-  input[type="number"] {
-    font-size: 18px;
-  }
-
-  h1, h2, h3, h4, h5, h6 {
-    font-size: 1.4em;
-  }
-}
-
