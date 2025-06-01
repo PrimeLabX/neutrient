@@ -73,14 +73,12 @@
           <select class="formula-select" data-index="2"></select>
           <div class="input-container" id="inputContainer2"></div>
         </div>
-        
-        
-  <button id="propofolToggle" class="propofol-button">プロポフォール：オフ</button>
-
-  <div id="rateInputContainer">
-    <label for="rateInput">速度：</label>
-    <input type="number" id="rateInput" placeholder="mL/h" />
-  </div>
+        <div class="formula-group">
+          <p><strong>製剤4</strong></p>
+          <div class="quick-buttons" id="quick4"></div>
+          <select class="formula-select" data-index="3"></select>
+          <div class="input-container" id="inputContainer3"></div>
+        </div>
 
         
       </div>
@@ -90,24 +88,7 @@
   
   <script>
   
-    // プロポの設定
-    const toggleButton = document.getElementById('propofolToggle');
-    const rateInputContainer = document.getElementById('rateInputContainer');
-    let isPropofolOn = false;
-
-    toggleButton.addEventListener('click', () => {
-      isPropofolOn = !isPropofolOn;
-      if (isPropofolOn) {
-        toggleButton.classList.add('on');
-        toggleButton.textContent = 'プロポフォール：オン';
-        rateInputContainer.style.display = 'block';
-      } else {
-        toggleButton.classList.remove('on');
-        toggleButton.textContent = 'プロポフォール：オフ';
-        rateInputContainer.style.display = 'none';
-      }
-    });
-    
+      
     
 document.addEventListener("DOMContentLoaded", function () {
   // タブ切り替え
@@ -172,6 +153,8 @@ function calculateNeeds() {
  
   
 const formulas = {
+  propofol: { name: "プロポフォール", kcalPerMl: 1.1, proteinPerMl: 0,fatPerMl:0.1, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0, kEqPerMl: 0.
+      },
   peptamenAF: { name: "ペプタメンAF", kcalPerMl: 1.5, proteinPerMl: 0.095,fatPerMl:0.066, type: "rate", naPerMl: 2.63, kPerMl: 2.32 , naEqPerMl: 0, kEqPerMl: 0.
       },
   terumeal2_0a: { name: "テルミール2.0α", kcalPerMl: 2.0,fatPerMl:0.075,proteinPerMl: 0.0725, type: "rate", naPerMl: 1, kPerMl: 1, naEqPerMl: 0, kEqPerMl: 0
@@ -211,9 +194,9 @@ const formulas = {
       },
 };
 
-  const quickList = ["peptamenAF", "terumeal2_0a", "highcalic", "elneopaNF2", "amiparen200", "soldem3"];
+  const quickList = ["propofol", "peptamenAF", "terumeal2_0a", "highcalic", "elneopaNF2", "amiparen200", "soldem3"];
 
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     const quickArea = document.getElementById(`quick${i + 1}`);
     const select = document.querySelector(`select[data-index='${i}']`);
     const inputContainer = document.getElementById(`inputContainer${i}`);
@@ -276,6 +259,7 @@ const formulas = {
 function calculateInfusion() {
   let totalKcal = 0;
   let totalProtein = 0;
+  let totalfat = 0;
   let totalWater = 0;
   let totalNa = 0;
   let totalK = 0;
@@ -283,14 +267,8 @@ function calculateInfusion() {
   let totalKEq = 0;
   let resultHTML = "";
   
-   // プロポフォール（脂肪製剤）の計算：オン状態なら速度を取得して24時間量を算出
-    if (isPropofolOn) {
-        var propRate = parseFloat(rateInput.value) || 0;     // propofol注入速度 (mL/h)
-        var propVolume24 = propRate * 24;                   // 24時間で投与される量 (mL)
-        ptotalKcal += propVolume24 * 1.1;                    // プロポフォール 1mLあたり1.1kcal
-        ptotalWater += propVolume24;                         // 水分は24時間分を加算
-    }
-
+  
+  
   const selects = document.querySelectorAll(".formula-select");
   selects.forEach((select, i) => {
     const key = select.value;
@@ -305,6 +283,7 @@ function calculateInfusion() {
       const volume = rate * 24;
       const kcal = volume * formula.kcalPerMl;
       const protein = volume * formula.proteinPerMl;
+      const fat = volume * formula.fatPerMl;
       const water = volume; // mL/h × 24 = volume(mL)
       const na = formula.naPerMl ? volume * formula.naPerMl : 0;
       const k = formula.kPerMl ? volume * formula.kPerMl : 0;
@@ -313,13 +292,14 @@ function calculateInfusion() {
 
       totalKcal += kcal;
       totalProtein += protein;
+      totalfat += fat;
       totalWater += water;
       totalNa += na;
       totalK += k;
       totalNaEq += naEq;
       totalKEq += kEq;
 
-      resultHTML += `<p><strong>${formula.name}</strong>：${volume} mL → ${Math.round(kcal)} kcal, ${protein.toFixed(1)} g タンパク質, ${Math.round(water)} mL 水分, Na: ${Math.round(na)} mg, K: ${Math.round(k)} mg, NaEq: ${Math.round(naEq)} mg, KEq: ${Math.round(kEq)} mg</p>`;
+      resultHTML += `<p><strong>${formula.name}</strong>：${volume} mL → ${Math.round(kcal)} kcal, ${protein.toFixed(1)} g タンパク質, ${Math.round(fat)} mg 脂質, Na: ${Math.round(na)} mg, K: ${Math.round(k)} mg, NaEq: ${Math.round(naEq)} mg, KEq: ${Math.round(kEq)} mg</p>`;
       
       
     } else if (formula.type === "count") {
@@ -328,6 +308,7 @@ function calculateInfusion() {
       if (isNaN(count) || count <= 0) return;
       const kcal = count * formula.kcalPerUnit;
       const protein = count * formula.proteinPerUnit;
+      const fat = volume * formula.fatPerMl;
       const water = count * formula.waterPerUnit;
       const na = formula.naPerUnit ? count * formula.naPerUnit : 0;
       const k = formula.kPerUnit ? count * formula.kPerUnit : 0;
@@ -336,20 +317,20 @@ function calculateInfusion() {
 
       totalKcal += kcal;
       totalProtein += protein;
+      totalfat += fat;
       totalWater += water;
       totalNa += na;
       totalK += k;
       totalNaEq += naEq;
       totalKEq += kEq;
-
-      resultHTML += `<p><strong>${formula.name}</strong>：${count} 個 → ${kcal} kcal, ${protein.toFixed(1)} g タンパク質, ${water} mL 水分, Na: ${Math.round(na)} mg, K: ${Math.round(k)} mg, 
+      
+      resultHTML += `<p><strong>${formula.name}</strong>：${count} 個 → ${kcal} kcal, タンパク質${protein.toFixed(1)} g , 脂質${Math.round(fat)} g , Na: ${Math.round(na)} mg, K: ${Math.round(k)} mg, 
       Na: ${Math.round(naEq)} mEq, K: ${Math.round(kEq)} mEq</p>`;
     }
   });
   
-  //totalKcal += ptotalKcal
-  //totalWater += ptotalWater
-  resultHTML += `<hr><p><strong>合計:</strong> ${Math.round(totalKcal)} kcal / ${totalProtein.toFixed(1)} g タンパク質 / ${Math.round(totalWater)} mL 水分 / Na: ${Math.round(totalNa)} mg / K: ${Math.round(totalK)} mg / Na: ${Math.round(totalNaEq)} mEq / K: ${Math.round(totalKEq)} mEq</p>`;
+
+  resultHTML += `<hr><p><strong>合計:</strong> 水分${Math.round(totalWater)} mL, ${Math.round(totalKcal)}kcal, タンパク質${totalProtein.toFixed(1)}g, 脂質${Math.round(totalfat)}g, Na:${Math.round(totalNa)}mg, K:${Math.round(totalK)}mg, Na:${Math.round(totalNaEq)}mEq, K:${Math.round(totalKEq)}mEq</p>`;
   document.getElementById("infusionResult").innerHTML = resultHTML || "<p>有効な入力がありません。</p>";  
 }
 
