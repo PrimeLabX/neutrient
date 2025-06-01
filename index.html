@@ -109,7 +109,7 @@
     });
     
     
-    document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function () {
   // タブ切り替え
   const tabButtons = document.querySelectorAll(".tab-button");
   const tabContents = document.querySelectorAll(".tab-content");
@@ -165,36 +165,49 @@ function calculateNeeds() {
   `;
 }
 
+//必要栄養量計算終了
 
-  // 製剤定義 enevo: { name: "エネーボ", kcalPerMl: 1.0, proteinPerMl: 0.04, type: "rate", naPerMl: 0.44, kPerMl: 1 }, impact: { name: "インパクト", kcalPerMl: 1.5, proteinPerMl: 0.065, type: "rate", naPerMl: 1.1, kPerMl: 1.33 },
+
+// 製剤定義 enevo: { name: "エネーボ", kcalPerMl: 1.0, proteinPerMl: 0.04, type: "rate", naPerMl: 0.44, kPerMl: 1 }, impact: { name: "インパクト", kcalPerMl: 1.5, proteinPerMl: 0.065, type: "rate", naPerMl: 1.1, kPerMl: 1.33 },
  
   
 const formulas = {
-  elneopaNF1: { name: "エルネオパNF1", kcalPerMl: 0.56, proteinPerMl: 0.02, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.022
-       },
-  elneopaNF2: { name: "エルネオパNF2", kcalPerMl: 0.82, proteinPerMl: 0.03, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.027
+  peptamenAF: { name: "ペプタメンAF", kcalPerMl: 1.5, proteinPerMl: 0.095,fatPerMl:0.066, type: "rate", naPerMl: 2.63, kPerMl: 2.32 , naEqPerMl: 0, kEqPerMl: 0.
       },
-  amiparen200: { name: "アミパレン200", kcalPerUnit: 80, proteinPerUnit: 20, waterPerUnit: 200, type: "count", naPerUnit: 0, kPerUnit: 0, naEqPerMl: 0.4, kEqPerMl: 0
+  terumeal2_0a: { name: "テルミール2.0α", kcalPerMl: 2.0,fatPerMl:0.075,proteinPerMl: 0.0725, type: "rate", naPerMl: 1, kPerMl: 1, naEqPerMl: 0, kEqPerMl: 0
       },
-  peptamenAF: { name: "ペプタメンAF", kcalPerMl: 1.5, proteinPerMl: 0.068, type: "rate", naPerMl: 2.63, kPerMl: 2.32 , naEqPerMl: 0, kEqPerMl: 0.
+  CZ_Hi: { name: "CZ_Hi", kcalPerMl: 1.0,fatPerMl:0.022,proteinPerMl: 0.05, type: "rate", naPerMl: 0.9, kPerMl: 1.5, naEqPerMl: 0, kEqPerMl: 0
       },
-  terumeal2_0a: { name: "テルミール2.0α", kcalPerMl: 2.0, proteinPerMl: 0.08, type: "rate", naPerMl: 1.2, kPerMl: 1.3 , naEqPerMl: 0, kEqPerMl: 0
+  recoverymini: { name: "リカバリーmini", kcalPerMl: 1.6,fatPerMl:0.06,proteinPerMl: 0.064, type: "rate", naPerMl: 1.84, kPerMl: 1.44, naEqPerMl: 0, kEqPerMl: 0
       },
-  highcalic: { name: "ハイカリック", kcalPerMl: 1.43, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0.0428
+　mainbalance: { name: "メイン", kcalPerMl: 1,fatPerMl:0.028,proteinPerMl: 0.05, type: "rate", naPerMl: 0.7, 　　kPerMl: 0.8, naEqPerMl: 0, kEqPerMl: 0
       },
-  kidoparen: { name: "キドパレン", kcalPerMl: 1.43, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0
+　hinexre: { name: "ハイネックスリニュート", kcalPerMl: 1,fatPerMl:0.056,proteinPerMl: 0.06, type: "rate", naPerMl: 1.59, 　 kPerMl: 1, naEqPerMl: 0, kEqPerMl: 0
       },
-  gfo: { name: "GFO", kcalPerMl: 3, proteinPerMl: 0.36, type: "rate", naPerMl: 0.019, kPerMl: 0 , naEqPerMl: 0, kEqPerMl: 0
-        },
-  soldem3: { name: "ソルデム3", kcalPerMl: 0.108, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.02
-      },
-  soldem3A: { name: "ソルデム3A", kcalPerMl: 0.172, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.035, kEqPerMl: 0.02
-      },
-  soldem3AG: { name: "ソルデム3AG", kcalPerMl: 0.3, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.035, kEqPerMl: 0.02
+　renalmp: {name: "リーナレンMP",　kcalPerMl: 200 / 125, proteinPerMl: 7.0 / 125, fatPerMl: 5.6 / 125,type: "rate",
+    naPerMl: 120/125,    kPerMl: 60 / 125,naEqPerMl:0,  kEqPerMl:0
      },
-　solacetf: { name: "ソルアセトF", kcalPerMl: 0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.131, kEqPerMl: 0.004
+  elneopaNF1: { name: "エルネオパNF1", kcalPerMl: 0.56,fatPerMl:0, proteinPerMl: 0.02, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.022
+       },
+  elneopaNF2: { name: "エルネオパNF2", kcalPerMl: 0.82,fatPerMl:0, proteinPerMl: 0.03, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.027
       },
-　normalsaline: { name: "生理食塩水", kcalPerMl: 0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.154, kEqPerMl: 0.154
+  amiparen200: { name: "アミパレン200", kcalPerUnit: 80,fatPerMl:0, proteinPerUnit: 20, waterPerUnit: 200, type: "count", naPerUnit: 0, kPerUnit: 0, naEqPerMl: 0.4, kEqPerMl: 0
+      },
+  highcalic: { name: "ハイカリック", kcalPerMl: 1.429,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0.0428
+      },
+  kidoparen: { name: "キドパレン", kcalPerMl: 1.429, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0
+      },
+  gfo: { name: "GFO", kcalPerMl: 3,fatPerMl:0, proteinPerMl: 0.36, type: "rate", naPerMl: 0.019, kPerMl: 0 , naEqPerMl: 0, kEqPerMl: 0
+        },
+  soldem3: { name: "ソルデム3", kcalPerMl: 0.108,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.02
+      },
+  soldem3A: { name: "ソルデム3A", kcalPerMl: 0.172, fatPerMl:0,proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.035, kEqPerMl: 0.02
+      },
+  soldem3AG: { name: "ソルデム3AG", kcalPerMl: 0.3, fatPerMl:0,proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.035, kEqPerMl: 0.02
+     },
+　solacetf: { name: "ソルアセトF", kcalPerMl: 0,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.131, kEqPerMl: 0.004
+      },
+　normalsaline: { name: "生理食塩水", kcalPerMl: 0, fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.154, kEqPerMl: 0.154
       },
 };
 
@@ -321,11 +334,9 @@ function calculateInfusion() {
       const naEq = formula.naEqPerUnit ? count * formula.naEqPerUnit : 0;
       const kEq = formula.kEqPerUnit ? count * formula.kEqPerUnit : 0;
 
-      //totalKcal += kcal;
-      totalKcal = kcal + ptotalKcal;
+      totalKcal += kcal;
       totalProtein += protein;
-      //totalWater += water;
-      totalWater = water + ptotalWater;
+      totalWater += water;
       totalNa += na;
       totalK += k;
       totalNaEq += naEq;
@@ -335,7 +346,9 @@ function calculateInfusion() {
       Na: ${Math.round(naEq)} mEq, K: ${Math.round(kEq)} mEq</p>`;
     }
   });
-
+  
+  //totalKcal += ptotalKcal
+  //totalWater += ptotalWater
   resultHTML += `<hr><p><strong>合計:</strong> ${Math.round(totalKcal)} kcal / ${totalProtein.toFixed(1)} g タンパク質 / ${Math.round(totalWater)} mL 水分 / Na: ${Math.round(totalNa)} mg / K: ${Math.round(totalK)} mg / Na: ${Math.round(totalNaEq)} mEq / K: ${Math.round(totalKEq)} mEq</p>`;
   document.getElementById("infusionResult").innerHTML = resultHTML || "<p>有効な入力がありません。</p>";  
 }
