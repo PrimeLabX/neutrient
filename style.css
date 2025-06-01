@@ -1,3 +1,6 @@
+
+@media screen and (min–width: 560){
+
 body {
   font-family: sans-serif;
   margin: 20px;
@@ -115,9 +118,9 @@ input[type="number"] {
   max-width: 150px;
   box-sizing: border-box;
 }
-
+}
 /* ▼▼▼ レスポンシブ対応 ▼▼▼ */
-@media screen and (max–width: 768px)
+@media screen and (max–width: 560)
   
 
   body {
