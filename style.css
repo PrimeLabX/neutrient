@@ -123,7 +123,18 @@ input[type="number"] {
     font-size: 18px;
   }
 
+  .tab-button,
+  .formula-btn,
+  .gender-btn,
+  .propofol-button,
+  label,
+  input[type="number"] {
+    font-size: 18px;
+  }
 
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1.4em;
+  }
   
   .tab-container {
     flex-direction: column;
