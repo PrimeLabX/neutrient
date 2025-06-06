@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja">
   <head>
     <meta charset="UTF-8" />
@@ -301,7 +300,7 @@ function calculateInfusion() {
       totalNaEq += naEq;
       totalKEq += kEq;
 
-      resultHTML += `<p><strong>${formula.name}</strong>：${volume} mL → ${Math.round(kcal)} kcal, ${protein.toFixed(1)} g タンパク質, ${Math.round(fat)} mg 脂質, Na: ${Math.round(na)} mg, K: ${Math.round(k)} mg, NaEq: ${Math.round(naEq)} mg, KEq: ${Math.round(kEq)} mg</p>`;
+      resultHTML += `<p><strong>${formula.name}</strong>：${volume} mL → ${Math.round(kcal)} kcal, タンパク質${protein.toFixed(1)}g, 脂質${Math.round(fat)}mg, Na: ${Math.round(na)}mg, K:${Math.round(k)}mg, NaEq:${Math.round(naEq)}mg, KEq:${Math.round(kEq)}mg</p>`;
       
       
     } else if (formula.type === "count") {
@@ -310,7 +309,7 @@ function calculateInfusion() {
       if (isNaN(count) || count <= 0) return;
       const kcal = count * formula.kcalPerUnit;
       const protein = count * formula.proteinPerUnit;
-      const fat = volume * formula.fatPerMl;
+      const fat = count * formula.fatPerMl;
       const water = count * formula.waterPerUnit;
       const na = formula.naPerUnit ? count * formula.naPerUnit : 0;
       const k = formula.kPerUnit ? count * formula.kPerUnit : 0;
@@ -326,8 +325,7 @@ function calculateInfusion() {
       totalNaEq += naEq;
       totalKEq += kEq;
       
-      resultHTML += `<p><strong>${formula.name}</strong>：${count} 個 → ${kcal} kcal, タンパク質${protein.toFixed(1)} g , 脂質${Math.round(fat)} g , Na: ${Math.round(na)} mg, K: ${Math.round(k)} mg, 
-      Na: ${Math.round(naEq)} mEq, K: ${Math.round(kEq)} mEq</p>`;
+      resultHTML += `<p><strong>${formula.name}</strong>：${count} 個 → ${kcal} kcal, タンパク質${protein.toFixed(1)}g, 脂質${Math.round(fat)}g, Na:${Math.round(na)}mg, K:${Math.round(k)}mg, Na:${Math.round(naEq)}mEq, K:${Math.round(kEq)}mEq</p>`;
     }
   });
   
