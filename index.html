@@ -3,18 +3,18 @@
   <head>
     <meta charset="UTF-8" />
     <meta name=”viewport” content=”width=device-width,initial-scale=1.0″> 
-    <title>栄養計画ツール</title>
+    <title>N栄養計画ツール</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <!-- タブ -->
     <div class="tab-container">
-      <button class="tab-button active" data-target="needs">必要栄養量</button>
-      <button class="tab-button" data-target="formulas">栄養製剤</button>
+      <button class="tab-button active" data-target="formulas">栄養製剤</button>
+      <button class="tab-button" data-target="needs">必要栄養量</button>
     </div>
 
     <!-- 必要栄養量タブ -->
-    <div id="needs" class="tab-content active">
+    <div id="needs" class="tab-content">
       <h2>患者の必要栄養量</h2>
       <div>
         <label>体重 (kg): <input type="number" id="weightInput" min="0" /></label>
@@ -53,7 +53,7 @@
     </div>
 
     <!-- 栄養製剤タブ -->
-    <div id="formulas" class="tab-content">
+    <div id="formulas" class="tab-content active">
       <h2>栄養製剤の投与量</h2>
       <div id="formulaContainer">
         <div class="formula-group">
