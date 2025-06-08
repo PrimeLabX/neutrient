@@ -190,7 +190,7 @@ const formulas = {
       },
   highcalic: { name: "ハイカリック", kcalPerMl: 1.429,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0.0428
       },
-  kidoparen: { name: "キドパレン", kcalPerMl: 1.429, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0
+  kidoparen: { name: "キドパレン", kcalPerMl: 1.429, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0, memo: "微量元素が入ってない"
       },
   gfo: { name: "GFO", kcalPerMl: 3,fatPerMl:0, proteinPerMl: 0.36, type: "rate", naPerMl: 0.019, kPerMl: 0 , naEqPerMl: 0, kEqPerMl: 0
         },
@@ -311,8 +311,10 @@ function calculateInfusion() {
       totalNaEq += naEq;
       totalKEq += kEq;
 
-      resultHTML += `<p><strong>${formula.name}</strong>：${volume} mL → ${Math.round(kcal)} kcal, タンパク質${protein.toFixed(1)}g, 脂質${Math.round(fat)}mg, Na: ${Math.round(na)}mg, K:${Math.round(k)}mg, NaEq:${Math.round(naEq)}mg, KEq:${Math.round(kEq)}mg</p>`;
-      
+      resultHTML += `<p><strong>${formula.name}</strong>：${volume} mL → ${Math.round(kcal)} kcal, タンパク質${protein.toFixed(1)}g, 脂質${Math.round(fat)}mg, Na: ${Math.round(na)}mg, K:${Math.round(k)}mg, NaEq:${Math.round(naEq)}mg, KEq:${Math.round(kEq)}mg`;
+      if (formula.memo) {
+        resultHTML += ` <span style="color:red">注意: ${formula.memo}</span>`;
+      }
       
     } else if (formula.type === "count") {
       const countInput = inputDiv.querySelector(".count");
@@ -336,7 +338,10 @@ function calculateInfusion() {
       totalNaEq += naEq;
       totalKEq += kEq;
       
-      resultHTML += `<p><strong>${formula.name}</strong>：${count} 個 → ${kcal} kcal, タンパク質${protein.toFixed(1)}g, 脂質${Math.round(fat)}g, Na:${Math.round(na)}mg, K:${Math.round(k)}mg, Na:${Math.round(naEq)}mEq, K:${Math.round(kEq)}mEq</p>`;
+      resultHTML += `<p><strong>${formula.name}</strong>：${count} 個 → ${kcal} kcal, タンパク質${protein.toFixed(1)}g, 脂質${Math.round(fat)}g, Na:${Math.round(na)}mg, K:${Math.round(k)}mg, Na:${Math.round(naEq)}mEq, K:${Math.round(kEq)}mEq`;
+      if (formula.memo) {
+        resultHTML += ` <span style="color:red">注意: ${formula.memo}</span>`;
+      }
     }
   });
   
