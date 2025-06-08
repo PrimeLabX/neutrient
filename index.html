@@ -191,7 +191,7 @@ const formulas = {
       },
   highcalic: { name: "ハイカリック", kcalPerMl: 1.429,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0.0428
       },
-  kidoparen: { name: "キドパレン", kcalPerMl: 1.429, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0, memo: "微量元素が入ってない"
+  kidoparen: { name: "キドパレン", kcalPerMl: 1.429, fatPerMl:0, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0, memo: "微量元素が入ってない"
       },
   gfo: { name: "GFO", kcalPerMl: 3,fatPerMl:0, proteinPerMl: 0.36, type: "rate", naPerMl: 0.019, kPerMl: 0 , naEqPerMl: 0, kEqPerMl: 0
         },
@@ -207,7 +207,7 @@ const formulas = {
       },
 };
 
-  const quickList = ["peptamenAF", "terumeal2_0a", "highcalic", "elneopaNF2", "amiparen200", "soldem3", "propofol"];
+  const quickList = ["peptamenAF", "highcalic", "elneopaNF2", "amiparen200", "soldem3", "propofol"];
 
 for (let i = 0; i < 4; i++) {
   const quickArea = document.getElementById(`quick${i + 1}`);
