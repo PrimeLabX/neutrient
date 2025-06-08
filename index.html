@@ -209,66 +209,97 @@ const formulas = {
 
   const quickList = ["peptamenAF", "terumeal2_0a", "highcalic", "elneopaNF2", "amiparen200", "soldem3", "propofol"];
 
-  for (let i = 0; i < 4; i++) {
-    const quickArea = document.getElementById(`quick${i + 1}`);
-    const select = document.querySelector(`select[data-index='${i}']`);
-    const inputContainer = document.getElementById(`inputContainer${i}`);
+for (let i = 0; i < 4; i++) {
+  const quickArea = document.getElementById(`quick${i + 1}`);
+  const select = document.querySelector(`select[data-index='${i}']`);
+  const inputContainer = document.getElementById(`inputContainer${i}`);
 
-    // クイックボタン生成
-    quickList.forEach((key) => {
-      const btn = document.createElement("button");
-      btn.className = "formula-btn";
-      btn.textContent = formulas[key].name;
-      btn.addEventListener("click", () => {
-        select.value = key;
-        select.dispatchEvent(new Event("change"));
-      });
-      quickArea.appendChild(btn);
+  // クイックボタン生成
+  quickList.forEach((key) => {
+    const btn = document.createElement("button");
+    btn.className = "formula-btn";
+    btn.textContent = formulas[key].name;
+    btn.addEventListener("click", () => {
+      select.value = key;
+      select.dispatchEvent(new Event("change"));
     });
+    quickArea.appendChild(btn);
+  });
 
-    // セレクトメニュー生成
-    const defaultOption = document.createElement("option");
-    defaultOption.value = "";
-    defaultOption.textContent = `-- 製剤${i + 1}を選択 --`;
-    select.appendChild(defaultOption);
-    for (const key in formulas) {
-      const option = document.createElement("option");
-      option.value = key;
-      option.textContent = formulas[key].name;
-      select.appendChild(option);
-    }
-
-    // セレクト変更時の処理
-    select.addEventListener("change", function () {
-      const selected = this.value;
-      inputContainer.innerHTML = "";
-      if (!formulas[selected]) return;
-
-      if (formulas[selected].type === "rate") {
-        const label = document.createElement("label");
-        label.textContent = "速度(mL/h): ";
-        const input = document.createElement("input");
-        input.type = "number";
-        input.min = "0";
-        input.className = "rate";
-        input.addEventListener("input", calculateInfusion);
-        label.appendChild(input);
-        inputContainer.appendChild(label);
-      } else if (formulas[selected].type === "count") {
-        const label = document.createElement("label");
-        label.textContent = "個数: ";
-        const input = document.createElement("input");
-        input.type = "number";
-        input.min = "0";
-        input.className = "count";
-        input.addEventListener("input", calculateInfusion);
-        label.appendChild(input);
-        inputContainer.appendChild(label);
-      }
-      calculateInfusion();
-    });
+  // セレクトメニュー生成
+  const defaultOption = document.createElement("option");
+  defaultOption.value = "";
+  defaultOption.textContent = `-- 製剤${i + 1}を選択 --`;
+  select.appendChild(defaultOption);
+  for (const key in formulas) {
+    const option = document.createElement("option");
+    option.value = key;
+    option.textContent = formulas[key].name;
+    select.appendChild(option);
   }
-  
+
+  // セレクト変更時の処理
+  select.addEventListener("change", function () {
+    const selected = this.value;
+    inputContainer.innerHTML = "";
+    if (!formulas[selected]) return;
+
+    if (formulas[selected].type === "rate") {
+      // 横並びの親コンテナ
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.gap = "8px";
+
+      // ラベル＋入力フォーム
+      const label = document.createElement("label");
+      label.textContent = "速度(mL/h): ";
+
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = "0";
+      input.className = "rate";
+      input.addEventListener("input", calculateInfusion);
+
+      label.appendChild(input);
+      container.appendChild(label);
+
+      // ボタン群のコンテナ
+      const presetContainer = document.createElement("div");
+      presetContainer.style.display = "flex";
+      presetContainer.style.gap = "4px";
+
+      [10, 20, 30, 40, 50, 60].forEach((val) => {
+        const btn = document.createElement("button");
+        btn.textContent = val;
+        btn.type = "button";
+        btn.style.padding = "4px 8px";
+        btn.style.fontSize = "12px";
+        btn.addEventListener("click", () => {
+          input.value = val;
+          input.dispatchEvent(new Event("input"));
+        });
+        presetContainer.appendChild(btn);
+      });
+
+      container.appendChild(presetContainer);
+      inputContainer.appendChild(container);
+
+    } else if (formulas[selected].type === "count") {
+      const label = document.createElement("label");
+      label.textContent = "個数: ";
+      const input = document.createElement("input");
+      input.type = "number";
+      input.min = "0";
+      input.className = "count";
+      input.addEventListener("input", calculateInfusion);
+      label.appendChild(input);
+      inputContainer.appendChild(label);
+    }
+    calculateInfusion();
+  });
+}
+
   
   // 比較ボタンを作成してbodyに追加
 const compareBtn = document.createElement("button");
