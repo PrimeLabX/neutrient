@@ -264,7 +264,7 @@ for (let i = 0; i < 4; i++) {
       label.appendChild(input);
       container.appendChild(label);
 
-      // ボタン群のコンテナ
+      // ボタン群のコンテナ（速度用）
       const presetContainer = document.createElement("div");
       presetContainer.style.display = "flex";
       presetContainer.style.gap = "4px";
@@ -286,16 +286,47 @@ for (let i = 0; i < 4; i++) {
       inputContainer.appendChild(container);
 
     } else if (formulas[selected].type === "count") {
+      // 横並びの親コンテナ
+      const container = document.createElement("div");
+      container.style.display = "flex";
+      container.style.alignItems = "center";
+      container.style.gap = "8px";
+
+      // ラベル＋入力フォーム
       const label = document.createElement("label");
       label.textContent = "個数: ";
+
       const input = document.createElement("input");
       input.type = "number";
       input.min = "0";
       input.className = "count";
       input.addEventListener("input", calculateInfusion);
+
       label.appendChild(input);
-      inputContainer.appendChild(label);
+      container.appendChild(label);
+
+      // ボタン群のコンテナ（個数用）
+      const presetContainer = document.createElement("div");
+      presetContainer.style.display = "flex";
+      presetContainer.style.gap = "4px";
+
+      [1, 2, 3, 4].forEach((val) => {
+        const btn = document.createElement("button");
+        btn.textContent = val;
+        btn.type = "button";
+        btn.style.padding = "4px 8px";
+        btn.style.fontSize = "12px";
+        btn.addEventListener("click", () => {
+          input.value = val;
+          input.dispatchEvent(new Event("input"));
+        });
+        presetContainer.appendChild(btn);
+      });
+
+      container.appendChild(presetContainer);
+      inputContainer.appendChild(container);
     }
+
     calculateInfusion();
   });
 }
