@@ -89,7 +89,6 @@
           <select class="formula-select" data-index="3"></select>
           <div class="input-container" id="inputContainer3"></div>
         </div>
-
         
       </div>
       <div id="infusionResult"></div>
@@ -123,6 +122,8 @@ document.addEventListener("DOMContentLoaded", function () {
     calculateNeeds();
   });
   conditionSelect.addEventListener("change", calculateNeeds);
+  
+
 
 function calculateNeeds() {
   const weight = parseFloat(weightInput.value);
@@ -267,6 +268,34 @@ const formulas = {
       calculateInfusion();
     });
   }
+  
+  
+  // 比較ボタンを作成してbodyに追加
+const compareBtn = document.createElement("button");
+compareBtn.textContent = "製剤比較(120mLあたり)";
+compareBtn.className = "compare-btn";
+compareBtn.style.marginTop = "20px";
+compareBtn.addEventListener("click", () => {
+  for (let i = 0; i < 4; i++) {
+    const select = document.querySelector(`select[data-index='${i}']`);
+    const selected = select.value;
+    if (!formulas[selected]) continue;
+
+    if (formulas[selected].type === "rate") {
+      const input = document.querySelector(`#inputContainer${i} .rate`);
+      if (input) {
+        input.value = 5;
+        input.dispatchEvent(new Event("input")); // 再計算させる
+      }
+    }
+  }
+});
+const target = document.getElementById("inputContainer3"); // 製剤4のinputContainer
+if (target && target.parentNode) {
+  target.parentNode.insertBefore(compareBtn, target.nextSibling);
+} else {
+  document.body.appendChild(compareBtn); // フォールバック
+}
 
 function calculateInfusion() {
   let totalKcal = 0;
@@ -315,6 +344,7 @@ function calculateInfusion() {
       if (formula.memo) {
         resultHTML += ` <span style="color:red">注意: ${formula.memo}</span>`;
       }
+
       
     } else if (formula.type === "count") {
       const countInput = inputDiv.querySelector(".count");
@@ -342,6 +372,7 @@ function calculateInfusion() {
       if (formula.memo) {
         resultHTML += ` <span style="color:red">注意: ${formula.memo}</span>`;
       }
+
     }
   });
   
