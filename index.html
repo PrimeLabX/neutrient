@@ -183,16 +183,25 @@ const formulas = {
 　renalmp: {name: "リーナレンMP",　kcalPerMl: 200 / 125, proteinPerMl: 7.0 / 125, fatPerMl: 5.6 / 125,type: "rate",
     naPerMl: 120/125,    kPerMl: 60 / 125,naEqPerMl:0,  kEqPerMl:0
      },
+  ELENTAL: { name: "エレンタール80g/300mL", kcalPerMl: 300/300, fatPerMl:0.51/300, proteinPerMl: 14.1/300, type: "rate", naPerMl: 260/300, kPerMl: 217.6/300, naEqPerMl: 0, kEqPerMl: 0
+      },
+  marmedone: { name: "マーメッドワン", kcalPerMl: 300/300, fatPerMl:11.4/300, proteinPerMl: 12/300, type: "rate", naPerMl: 420/300, kPerMl: 495/300, naEqPerMl:0, kEqPerMl: 0
+      },
   elneopaNF1: { name: "エルネオパNF1", kcalPerMl: 0.56,fatPerMl:0, proteinPerMl: 0.02, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.022
        },
   elneopaNF2: { name: "エルネオパNF2", kcalPerMl: 0.82,fatPerMl:0, proteinPerMl: 0.03, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.027
       },
-  amiparen200: { name: "アミパレン200", kcalPerUnit: 80,fatPerMl:0, proteinPerUnit: 20, waterPerUnit: 200, type: "count", naPerUnit: 0, kPerUnit: 0, naEqPerMl: 0.4, kEqPerMl: 0
-      },
-  highcalic: { name: "ハイカリックRF", kcalPerMl: 1.429,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0.0428
-      },
   kidoparen: { name: "キドパレン", kcalPerMl: 1.429, fatPerMl:0, proteinPerMl: 0.0313, type: "rate", naPerMl: 0, kPerMl: 0 , naEqPerMl: 0.047619, kEqPerMl: 0, memo: "微量元素が入ってない"
       },
+  highcalic: { name: "ハイカリックRF", kcalPerMl: 1.429,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0.0428
+      },     
+  hullcalic: { name: "フルカリック3", kcalPerMl: 1160/1103, fatPerMl:0, proteinPerMl: 40/1103, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl:50/1103, kEqPerMl: 30/1103
+      },
+  amiparen200: { name: "アミパレン200", kcalPerUnit: 80,fatPerMl:0, proteinPerUnit: 20, waterPerUnit: 200, type: "count", naPerUnit: 0, kPerUnit: 0, naEqPerMl: 0.4, kEqPerMl: 0
+      },
+ kidmine: { name: "キドミン", kcalPerMl: 14.41*4/200, fatPerMl:0, proteinPerMl: 14.41/200, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl:0, kEqPerMl: 0
+      },
+  
   gfo: { name: "GFO", kcalPerMl: 3,fatPerMl:0, proteinPerMl: 0.36, type: "rate", naPerMl: 0.019, kPerMl: 0 , naEqPerMl: 0, kEqPerMl: 0
         },
   soldem3: { name: "ソルデム3", kcalPerMl: 0.108,fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.05, kEqPerMl: 0.02
@@ -205,7 +214,7 @@ const formulas = {
       },
 　normalsaline: { name: "生理食塩水", kcalPerMl: 0, fatPerMl:0, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0.154, kEqPerMl: 0.154
       },
-  aminoleban: { name: "アミノレバン", kcalPerMl: 39.93*4/500, fatPerMl:0, proteinPerMl: 39.93/500, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 5/100, kEqPerMl: 47/500
+ aminoleban: { name: "アミノレバン", kcalPerMl: 39.93*4/500, fatPerMl:0, proteinPerMl: 39.93/500, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 5/100, kEqPerMl: 47/500
       },
   Intralipid: { name: "イントラリポス20%", kcalPerMl: 200/100, fatPerMl:22.2/100, proteinPerMl: 0, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 0, kEqPerMl: 0
       },
@@ -213,11 +222,6 @@ const formulas = {
       },
 　BFLUID: { name: "ビーフリード", kcalPerMl: 420/1000, fatPerMl:0, proteinPerMl: 30/1000, type: "rate", naPerMl: 0, kPerMl: 0, naEqPerMl: 35/1000, kEqPerMl: 20/1000
       },
- ELENTAL: { name: "エレンタール80g/300mL", kcalPerMl: 300/300, fatPerMl:0.51/300, proteinPerMl: 14.1/300, type: "rate", naPerMl: 260/300, kPerMl: 217.6/300, naEqPerMl: 0, kEqPerMl: 0
-      },
-　marmedone: { name: "マーメッドワン", kcalPerMl: 300/300, fatPerMl:11.4/300, proteinPerMl: 12/300, type: "rate", naPerMl: 420/300, kPerMl: 495/300, naEqPerMl:0, kEqPerMl: 0
-      },
-      
 };
 
   const quickList = ["peptamenAF", "highcalic", "elneopaNF2", "amiparen200", "soldem3", "propofol"];
